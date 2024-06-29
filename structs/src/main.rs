@@ -1,28 +1,36 @@
 use env_logger::Env;
 use log::info;
+use std::fmt::Debug;
 
 /// A FIFO queue
 #[derive(Debug)]
-pub struct Queue {
-    older: Vec<char>,   // older elements, eldest last.
-    younger: Vec<char>, // younger elements, youngest last.
+pub struct Queue<T> {
+    older: Vec<T>,   // older elements, eldest last.
+    younger: Vec<T>, // younger elements, youngest last.
 }
 
-impl Queue {
+impl<T> Queue<T>
+where
+    T: Debug,
+{
     pub fn new() -> Self {
-        Self {
+        Queue {
             older: Vec::new(),
             younger: Vec::new(),
         }
     }
     /// Push a character onto the back of a queue
-    pub fn push(&mut self, c: char) {
-        info!("Pushing {}", c);
+    pub fn push(&mut self, c: T) {
+        info!("Pushing {:?}", c);
         self.younger.push(c);
     }
 
+    pub fn is_empty(&self) -> bool {
+        self.older.is_empty() && self.younger.is_empty()
+    }
+
     /// Pop a character from the queue
-    pub fn pop(&mut self) -> Option<char> {
+    pub fn pop(&mut self) -> Option<T> {
         if self.older.is_empty() {
             if self.younger.is_empty() {
                 return None;
@@ -45,7 +53,7 @@ fn main() {
 
     env_logger::init_from_env(env);
 
-    let mut queue = Queue::new();
+    let mut queue = Queue::<char>::new();
     let c = 'c';
     queue.push(c);
     if let Some(ch) = queue.pop() {
