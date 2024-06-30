@@ -1,5 +1,6 @@
 use crate::queue::Queue;
 
+mod cells;
 mod lifetimes;
 mod polynomial;
 mod queue;
