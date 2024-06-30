@@ -1,3 +1,7 @@
+use env_logger::Env;
+use log::info;
+use std::fmt::Debug;
+
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 enum TimeUnit {
     Seconds,
@@ -23,4 +27,13 @@ impl TimeUnit {
     }
 }
 
-fn main() {}
+fn main() {
+    let env = Env::default().filter_or("LOG_LEVEL", "info");
+
+    env_logger::init_from_env(env);
+    let mins = TimeUnit::Hours.plural();
+    let min = TimeUnit::Hours.singular();
+
+    info!("Plural: {}", mins);
+    info!("Singular: {}", min);
+}
