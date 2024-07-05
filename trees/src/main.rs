@@ -24,5 +24,5 @@ fn main() {
 
     let tree = Tree::NonEmpty(Box::new(node3));
 
-    info!("{:?}", tree);
+    println!("{:#?}", tree);
 }

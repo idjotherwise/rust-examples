@@ -1,4 +1,5 @@
 use crate::tree::Tree;
+use std::fmt;
 #[derive(Debug, Clone)]
 pub struct Node<T> {
     pub value: T,
@@ -19,5 +20,19 @@ impl<T> Node<T> {
             value,
             children: vec![child],
         }
+    }
+}
+
+impl<T> fmt::Display for Node<T>
+where
+    T: fmt::Display,
+{
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "Value: {}\n", &self.value)?;
+        write!(f, "\tChildren:\n")?;
+        for c in &self.children {
+            write!(f, "\t{}", c)?;
+        }
+        Ok(())
     }
 }

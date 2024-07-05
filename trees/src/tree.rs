@@ -1,4 +1,5 @@
 use log::info;
+use std::fmt;
 
 use crate::node::Node;
 
@@ -21,5 +22,21 @@ impl<T> Tree<T> {
     }
     pub fn from_node(node: Node<T>) -> Self {
         Tree::NonEmpty(Box::new(node))
+    }
+}
+
+impl<T> fmt::Display for Tree<T>
+where
+    T: fmt::Display,
+{
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Empty => {
+                write!(f, "Empty")
+            }
+            Self::NonEmpty(n) => {
+                write!(f, "{:4}", n)
+            }
+        }
     }
 }
